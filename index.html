@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>い形容詞練習アプリ / i-Adjective Practice App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Hiragino Sans', 'Meiryo', sans-serif;
+            background: linear-gradient(135deg, #667eea
+
+ 0%, #764ba2
+
+ 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea
+
+;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+
+        .section {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9ff
+
+;
+            border-radius: 15px;
+            border-left: 5px solid #667eea
+
+;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #667eea
+
+;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0
+
+;
+        }
+
+        th {
+            background: #667eea
+
+;
+            color: white;
+            font-weight: bold;
+        }
+
+        .japanese {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .romaji {
+            font-size: 1.2em;
+            color: #764ba2
+
+;
+            font-style: italic;
+        }
+
+        .english {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .audio-btn {
+            background: #667eea
+
+;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin: 10px 5px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .audio-btn:hover {
+            background: #764ba2
+
+;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+        }
+
+        .audio-btn:active {
+            transform: translateY(0);
+        }
+
+        .example {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 4px solid #ffd700
+
+;
+        }
+
+        .example-jp {
+            font-size: 1.4em;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .example-romaji {
+            font-size: 1.1em;
+            color: #764ba2
+
+;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .example-en {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .quiz {
+            background: #fff3cd
+
+;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border: 3px solid #ffc107
+
+;
+        }
+
+        .quiz-question {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .quiz-options {
+            margin: 20px 0;
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border: 2px solid #667eea
+
+;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: #667eea
+
+;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background: #28a745
+
+;
+            color: white;
+            border-color: #28a745
+
+;
+        }
+
+        .option-btn.incorrect {
+            background: #dc3545
+
+;
+            color: white;
+            border-color: #dc3545
+
+;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .feedback.correct {
+            background: #d4edda
+
+;
+            color: #155724
+
+;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da
+
+;
+            color: #721c24
+
+;
+        }
+
+        .conjugation-box {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .conj-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 10px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .conj-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .conj-label {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .conj-word {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea
+
+;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .section-title {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>いけいようし れんしゅう アプリ</h1>
+        <div class="subtitle">i-keiyoushi Practice App: "ii" & "kakkoii"</div>
+
+        <!-- Section 1: Explanation -->
+        <div class="section">
+            <div class="section-title">📚 いけいようし の せつめい / Explanation</div>
+            <p style="font-size: 1.2em; line-height: 1.8;">
+                <strong>いけいようし (i-keiyoushi)</strong> = adjectives that end with <strong>い (i)</strong>.<br>
+                They change form for <strong>present</strong> and <strong>past</strong> tense.
+            </p>
+            <table>
+                <tr>
+                    <th>Form</th>
+                    <th>Japanese (Romaji)</th>
+                    <th>English</th>
+                </tr>
+                <tr>
+                    <td>Present</td>
+                    <td>〜い (〜i)</td>
+                    <td>is ...</td>
+                </tr>
+                <tr>
+                    <td>Past</td>
+                    <td>〜かった (〜katta)</td>
+                    <td>was ...</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section 2: いい Conjugation -->
+        <div class="section">
+            <div class="section-title">✨ 「いい」の かつよう / Conjugation of "ii"</div>
+            <div class="conjugation-box">
+                <div class="conj-card">
+                    <div class="conj-label">Present / げんざい</div>
+                    <div class="conj-word">いい</div>
+                    <div class="romaji">(ii)</div>
+                    <div class="english">good / nice</div>
+                    <button class="audio-btn" onclick="speak('いい')">🔊 いい</button>
+                </div>
+                <div class="conj-card">
+                    <div class="conj-label">Past / かこ</div>
+                    <div class="conj-word">よかった</div>
+                    <div class="romaji">(yokatta)</div>
+                    <div class="english">was good / was nice</div>
+                    <button class="audio-btn" onclick="speak('よかった')">🔊 よかった</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: かっこいい Conjugation -->
+        <div class="section">
+            <div class="section-title">😎 「かっこいい」の かつよう / Conjugation of "kakkoii"</div>
+            <div class="conjugation-box">
+                <div class="conj-card">
+                    <div class="conj-label">Present / げんざい</div>
+                    <div class="conj-word">かっこいい</div>
+                    <div class="romaji">(kakkoii)</div>
+                    <div class="english">cool / handsome</div>
+                    <button class="audio-btn" onclick="speak('かっこいい')">🔊 かっこいい</button>
+                </div>
+                <div class="conj-card">
+                    <div class="conj-label">Past / かこ</div>
+                    <div class="conj-word">かっこよかった</div>
+                    <div class="romaji">(kakkoyokatta)</div>
+                    <div class="english">was cool / was handsome</div>
+                    <button class="audio-btn" onclick="speak('かっこよかった')">🔊 かっこよかった</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Examples -->
+        <div class="section">
+            <div class="section-title">💬 れいぶん / Example Sentences</div>
+            
+            <h3 style="color: #667eea
+
+; margin: 20px 0;">いい (ii)</h3>
+            <div class="example">
+                <div class="example-jp">このりんごは <strong>いい</strong> です。</div>
+                <div class="example-romaji">(kono ringo wa ii desu)</div>
+                <div class="example-en">→ This apple is good.</div>
+                <button class="audio-btn" onclick="speak('このりんごはいいです')">🔊 Listen</button>
+            </div>
+
+            <div class="example">
+                <div class="example-jp">きのう、てんきは <strong>よかった</strong> です。</div>
+                <div class="example-romaji">(kinou tenki wa yokatta desu)</div>
+                <div class="example-en">→ The weather was good yesterday.</div>
+                <button class="audio-btn" onclick="speak('きのう、てんきはよかったです')">🔊 Listen</button>
+            </div>
+
+            <h3 style="color: #667eea
+
+; margin: 20px 0;">かっこいい (kakkoii)</h3>
+            <div class="example">
+                <div class="example-jp">そのせんせいは <strong>かっこいい</strong> です。</div>
+                <div class="example-romaji">(sono sensei wa kakkoii desu)</div>
+                <div class="example-en">→ That teacher is cool.</div>
+                <button class="audio-btn" onclick="speak('そのせんせいはかっこいいです')">🔊 Listen</button>
+            </div>
+
+            <div class="example">
+                <div class="example-jp">きのう、(その)えいがは <strong>かっこよかった</strong> です。</div>
+                <div class="example-romaji">(kinou (sono) eiga wa kakkoyokatta desu)</div>
+                <div class="example-en">→ The movie yesterday was cool.</div>
+                <button class="audio-btn" onclick="speak('きのう(その)えいがはかっこよかったです')">🔊 Listen</button>
+            </div>
+        </div>
+
+        <!-- Section 5: Quiz -->
+        <div class="section">
+            <div class="section-title">🎯 れんしゅう もんだい / Practice Quiz</div>
+
+            <!-- Question 1 -->
+            <div class="quiz" id="quiz1">
+                <div class="quiz-question">
+                    Q1: きのう、パーティーは（　　）です。<br>
+                    <span class="romaji">(kinou paatii wa ( ) desu)</span>
+                </div>
+                <div class="quiz-options">
+                    <button class="option-btn" onclick="checkAnswer(1, 'A')">A. いい (ii)</button>
+                    <button class="option-btn" onclick="checkAnswer(1, 'B')">B. よかった (yokatta)</button>
+                </div>
+                <div id="feedback1"></div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="quiz" id="quiz2">
+                <div class="quiz-question">
+                    Q2: あのひとは（　　）です。<br>
+                    <span class="romaji">(ano hito wa ( ) desu)</span>
+                </div>
+                <div class="quiz-options">
+                    <button class="option-btn" onclick="checkAnswer(2, 'A')">A. かっこいい (kakkoii)</button>
+                    <button class="option-btn" onclick="checkAnswer(2, 'B')">B. かっこよかった (kakkoyokatta)</button>
+                </div>
+                <div id="feedback2"></div>
+            </div>
+
+         
+
+        <!-- Summary -->
+        <div class="section">
+            <div class="section-title">📝 まとめ / Summary</div>
+            <table>
+                <tr>
+                    <th>Adjective</th>
+                    <th>Present</th>
+                    <th>Past</th>
+                    <th>Meaning</th>
+                </tr>
+                <tr>
+                    <td>いい (ii)</td>
+                    <td class="japanese">いい (ii)</td>
+                    <td class="japanese">よかった (yokatta)</td>
+                    <td>good</td>
+                </tr>
+                <tr>
+                    <td>かっこいい (kakkoii)</td>
+                    <td class="japanese">かっこいい (kakkoii)</td>
+                    <td class="japanese">かっこよかった (kakkoyokatta)</td>
+                    <td>cool</td>
+                </tr>
+            </table>
+            <p style="text-align: center; font-size: 1.3em; margin-top: 20px; color: #667eea
+
+;">
+                🎧 Practice listening and speaking!<br>
+                がんばってください！(ganbatte kudasai!)
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Text-to-Speech function
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ja-JP';
+                utterance.rate = 0.8; // Slower for learning
+                utterance.pitch = 1;
+                
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('Sorry, your browser does not support text-to-speech.');
+            }
+        }
+
+        // Quiz answers
+        const answers = {
+            1: 'B', // よかった (past)
+            2: 'A', // かっこいい (present)
+            3: 'B'  // かっこよかった (past)
+        };
+
+        // Track answered questions
+        const answered = {};
+
+        function checkAnswer(questionNum, selectedAnswer) {
+            // Prevent multiple answers
+            if (answered[questionNum]) {
+                return;
+            }
+            answered[questionNum] = true;
+
+            const correctAnswer = answers[questionNum];
+            const feedbackDiv = document.getElementById('feedback' + questionNum);
+            const buttons = document.querySelectorAll(`#quiz${questionNum} .option-btn`);
+            
+            // Disable all buttons
+            buttons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+            });
+
+            if (selectedAnswer === correctAnswer) {
+                // Correct answer
+                event.target.classList.add('correct');
+                feedbackDiv.innerHTML = '<div class="feedback correct">✅ せいかい！(seikai!) Correct!</div>';
+                speak('せいかい');
+            } else {
+                // Incorrect answer
+                event.target.classList.add('incorrect');
+                // Show correct answer
+                buttons.forEach(btn => {
+                    if (btn.textContent.includes(correctAnswer + '.')) {
+                        btn.classList.add('correct');
+                    }
+                });
+                feedbackDiv.innerHTML = '<div class="feedback incorrect">❌ ざんねん (zannen) Try again! The correct answer is ' + correctAnswer + '.</div>';
+                speak('ざんねん');
+            }
+        }
+
+        // Reset quiz function (optional)
+        function resetQuiz() {
+            for (let i = 1; i <= 3; i++) {
+                answered[i] = false;
+                document.getElementById('feedback' + i).innerHTML = '';
+                const buttons = document.querySelectorAll(`#quiz${i} .option-btn`);
+                buttons.forEach(btn => {
+                    btn.classList.remove('correct', 'incorrect');
+                    btn.style.pointerEvents = 'auto';
+                });
+            }
+        }
+    </script>
+</body>
+</html>
+
